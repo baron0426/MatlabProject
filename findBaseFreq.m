@@ -1,10 +1,11 @@
-function [baseFreq_amp, baseFreq] = findBaseFreq(sample, fs)
+function out = findBaseFreq(sample, fs)
 sample = repmat(sample, 100, 1);
+Amp = zeros(1,6);
 NFFT = 1000000;
 sample_F = fft(sample, NFFT);
 axis_f = fs*linspace(0,1,NFFT);
 sample_F_ABS = 1/NFFT*abs(sample_F);
-plot(axis_f(1:NFFT/2), sample_F_ABS(1:NFFT/2));
+%plot(axis_f(1:NFFT/2), sample_F_ABS(1:NFFT/2));
 ERRTOL = 50; %Error Tolerance in Hz
 ERRTOL_CNT = floor(ERRTOL*NFFT/fs);
 [max_amp, baseFreq_CNT] = max(sample_F_ABS);
@@ -25,7 +26,16 @@ else
     baseFreq_amp = max_amp;
     baseFreq = fs*baseFreq_CNT/NFFT;
 end
+
+Amp(1) = baseFreq_amp;
+CRITERIA_R2 = 0.05; %Setting a relative criteria
 for k = 2:1:6
-    
+    Amp(k) =  max(sample_F_ABS((k*baseFreq_CNT-ERRTOL_CNT): (k*baseFreq_CNT+ERRTOL_CNT)));
+    if(Amp(k) < Amp(1) * CRITERIA_R2) Amp(k) = 0;
+    end
 end
+Amp = Amp ./ Amp(1);
+out = [baseFreq, Amp];
 end
+
+
