@@ -31,6 +31,8 @@ for i=1:a
     end
 	last = last_next - tc(i)*0.05*fs;
 end
+music = music./abs(max(music));
+music(music==1)= 0.9999;
 sound(music,fs);
 audiowrite('tsinghua3.wav', music,fs);
 end
