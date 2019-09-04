@@ -31,6 +31,7 @@ for i=1:a
 end
 music = music./abs(max(music));
 music(music==1)= 0.9999;
+music(music==-1) = -0.9999;
 sound(music,fs);
 audiowrite('wuling3.wav', music,fs);
 end

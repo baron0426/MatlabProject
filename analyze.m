@@ -38,4 +38,4 @@ for k = 1:1:partitionCnt
     end
 end
 FREQ_INFO( ~any(FREQ_INFO,2), : ) = [];  %rows
-makeTsinghuaSong(16000, FREQ_INFO);
+makeWulingSong(16000, FREQ_INFO);
