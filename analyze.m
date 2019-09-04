@@ -26,26 +26,7 @@ partitionCnt = length(A)-1;
        % end
     %end
 %end
-sample = music(A(5)+100:A(6));
-sample = repmat(sample, 100, 1);
-NFFT = 1000000;
-sample_F = fft(sample, NFFT);
-axis_f = fs*linspace(0,1,NFFT);
-sample_F_ABS = 1/NFFT*abs(sample_F);
-plot(axis_f(1:NFFT/2), sample_F_ABS(1:NFFT/2));
-unit_F = 1250;
-freq = zeros(1,50);
-amp = [];
-found = 0;
-for n = (unit_F+1):unit_F:length(sample_F_ABS)
-    if(found == 1)
-        break;
-    end
-    max1 = abs(max(sample_F_ABS((n-unit_F):(n-1))));
-    [max2, potentbaseFreq] = max(sample_F_ABS((n):(n+unit_F-1)));
-    max2 = abs(max2);
-    if((max2 >= max1 * 3) && (max2>=0.002))
-       freq(1) = potentbaseFreq*fs/size(sample_F_ABS); 
-       found = 1;
-    end
-end
+sample = music(A(6)+100:A(7));
+sound(sample,fs)
+[baseFreq_amp, baseFreq] = findBaseFreq(sample, fs);
+
