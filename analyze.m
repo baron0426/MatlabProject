@@ -1,14 +1,14 @@
 clear all;
 close all;
 clc;
-[music, fs] = audioread('paperplane2.wav');
+[music, fs] = audioread('paperplane.wav');
 size = length(music);
 A = [];
 unit = 400;
 for i = (unit+1):unit:(size-unit+1)
 a1 = max(abs(music((i-unit):(i-1))));
 a2 = max(abs(music(i:i+unit-1)));
-if(a2>=(a1*1.5))
+if(a2>=(a1*1.4))
 A = [A i];
 end
 end
