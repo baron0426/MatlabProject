@@ -1,7 +1,7 @@
 clear all;
 close all;
 clc;
-[music, fs] = audioread('paperplane.wav');
+[music, fs] = audioread('fmt.wav');
 size = length(music);
 A = [];
 unit = 400;
