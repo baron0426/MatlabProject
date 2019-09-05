@@ -1,19 +1,19 @@
-function music = makeTsinghuaSong(fs, FREQ_INFO)
-clap1 = [1 0.5 0.5 1 1 1 0.5 0.5 1 1 1 1 0.5 0.5 1 1 0.5 0.5 2 ];
-clap2 = [1 1 0.5 0.5 1 1 1 0.5 0.5 1 1 1 0.5 0.5 1 1 1 0.5 0.5 2];
-clap3 = [1.5 0.5 1 1 1.5 0.5 2 1.5 0.5 1 1 1 0.5 0.5 2];
-clap4 = [1.5 0.5 1 1 1 0.5 0.5 2 1.5 0.5 1 1 1 0.5 0.5 2];
-clap5 = [1 2 1 1 2 1 1 1 1 1 1 1 2 1 2 1 1 2 1 1 1 1 1 1 0.5 0.5 2];
+function music = makeFlagAnthem(fs, FREQ_INFO)
+clap1 = [1 0.75 0.25 1 1 1 0.75 0.25 1 1 1 1 1 0.75 0.25 0.75 0.25 1 2];
+clap2 = [1 0.75 0.25 1 1 1 0.75 0.25 1 1 1 1 1 0.5 0.5 0.75 0.25 1 2];
+clap3 = [1.5 0.5 1 1 1 0.75 0.25 0.75 0.25 1 1.5 0.5 1 1 0.75 0.25 0.5 0.5 2];
+clap4 = [1.5 0.5 0.75 0.25 1 1.5 0.5 0.75 0.25 1 1 0.5 0.5 0.5 0.5 0.5 0.5 1 0.75 0.25 1 1];
+clap5 = [1.5 0.5 0.75 0.25 1 1.5 0.5 0.75 0.25 1 1 0.5 0.5 0.5 0.5 0.5 0.5 1 0.75 0.25 2];
 clap = [clap1 clap2 clap3 clap4 clap5];
 tc = 0.6*clap;
-pitch1 = [3 3 7 10 10 12 15 12 10 10 7 7 10 7 3 0 3 7 10];
-pitch2 = [12 12 12 15 10 7 5 7 5 3 5 10 10 9 10 12 12 14 12 10];
-pitch3 = [15 15 12 15 10 12 10 12 12 10 7 5 5 7 10];
-pitch4 = [3 3 3 7 5 7 5 3 12 12 10 7 5 7 5 3];
-pitch5 = [15 15 complex(0,1) 12 12 complex(0,1) 10 10 12 10 5 7 10 15 15 complex(0,1) 19 19 complex(0,1) 10 10 12 10 5 7 5 3];
+pitch1 = [4 0 4 7 7 12 11 9 9 7 9 7 7 4 0 5 5 4 2];
+pitch2 = [4 0 2 4 7 12 11 9 9 7 9 7 7 5 4 2 4 2 0];
+pitch3 = [2 4 5 5 9 9 9 7 5 4 4 7 12 12 14 12 11 9 7];
+pitch4 = [16 16 14 12 11 14 12 11 9 7 12 12 7 9 7 5 4 2 4 5 4 complex(0,1)];
+pitch5 = [16 16 14 12 11 14 12 11 9 7 12 12 7 11 9 7 5 4 5 2 0];
 pitch = [pitch1 pitch2 pitch3 pitch4 pitch5];
-a = length(pitch);
 music = zeros(1,900000);
+a = length(pitch);
 last = 1;
 for i=1:a
     if(imag(pitch(i)) == 0)
@@ -33,5 +33,6 @@ for i=1:a
 end
 music = music./abs(max(music));
 music(music==1)= 0.9999;
-audiowrite('output_tsinghua.wav', music,fs);
+music(music==-1) = -0.9999;
+audiowrite('output_flag.wav', music,fs);
 end
