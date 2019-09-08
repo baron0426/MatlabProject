@@ -1,3 +1,4 @@
+%main program for question 1
 fs = 8000; %setting sample rate
 clap = [1 0.5 0.5 2 1 0.5 0.5 2]; %setting the beat of the music
 pitch = [7 7 9 2 0 0 -3 2]; %setting the pitch of the music

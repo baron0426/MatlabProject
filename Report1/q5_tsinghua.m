@@ -1,4 +1,4 @@
-clear all;
+clear all; %main program for question 5
 clc;
 fs = 16000;
 clap1 = [1 0.5 0.5 1 1 1 0.5 0.5 1 1 1 1 0.5 0.5 1 1 0.5 0.5 2 ];

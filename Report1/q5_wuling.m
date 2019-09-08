@@ -1,4 +1,4 @@
-clear all;
+clear all; %main program for question 5
 close all;
 clc;
 fs = 16000;

@@ -1,4 +1,4 @@
-function y = q4_makesound(fs, pitch, tc)
+function y = q4_makesound(fs, pitch, tc) %generate sound signal for question 4
 t = 0:(1/fs):tc;
 freq = 440*(2^(-0.75))*2^(pitch/12);
 sound = sin(2*pi*freq*t)+0.15*sin(4*pi*freq*t)+0.2*sin(6*pi*freq*t);
