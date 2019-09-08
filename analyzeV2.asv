@@ -1,0 +1,16 @@
+clear all;
+close all;
+clc;
+[music, fs] = audioread('fmt.wav');
+sizee = length(music);
+partition = [];
+[yupper,ylower] = envelope(music,fs/10,'peak'); %the order of FIR is an experience number
+axis_t = linspace(0,(sizee-1)/fs,sizee);
+env = yupper - ylower;
+plot(axis_t, yupper-ylower);
+[pks, loc] = findpeaks(env);
+loc2 = [0 loc' sizee];
+for k = 1 : 1 : loc2size-1
+sound(music(loc2(k)+1:loc2(k+1)), fs);
+pause(1);
+end
