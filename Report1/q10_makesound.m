@@ -1,3 +1,4 @@
+%generate sound signal for question 10
 function y = q10_makesound(fs, pitch, tc, amp)
 t = linspace(0, tc, tc*fs);
 freq = 440*(2^(-0.75))*2^(pitch/12);
