@@ -1,4 +1,5 @@
 function out = findBaseFreqV2(sample, fs)
+sound(sample,fs);
 sample = repmat(sample, 100, 1);
 Amp = zeros(1,6);
 NFFT = 1000000;
@@ -45,7 +46,13 @@ FreqList_Amp(FreqList==0) = 0;
 [~,MAX_ENERGY_IND] = max(sum(FreqList_Amp.^2,1));
 baseFreq = FreqList_Freq(1,MAX_ENERGY_IND);
 temp = FreqList_Amp(:,MAX_ENERGY_IND);
-out = [baseFreq temp'];
+temp = temp';
+temp = temp/abs(max(temp));
+y = findFreq_makesound(fs, baseFreq, 1, temp);
+y = y ./abs(max(y));
+pause(1);
+sound(y, fs);
+out = [baseFreq temp];
 end
 
 

@@ -1,6 +1,6 @@
-function y = makesound2(fs, pitch, tc, amp)
+%generate sound signal for question 10
+function y = findFreq_makesound(fs, freq, tc, amp)
 t = linspace(0, tc, tc*fs);
-freq = 440*(2^(-0.75))*2^(pitch/12);
 amp_size = length(amp);
 K  = 2*pi*freq : 2*pi*freq : 2*amp_size*pi*freq;
 sound = amp*sin(kron(K', t));
