@@ -17,4 +17,5 @@ sc = st-s1-s2-s3-s4;
 wc = linspace(0.8, 0.8, sc);
 w = [w1 w2 w3 wc w4];
 y = sound .* w;
+y = y ./ abs(max(y));
 end

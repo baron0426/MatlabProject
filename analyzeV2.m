@@ -38,3 +38,4 @@ for k = 1:1:loc2size-1
     FREQ_INFO(k,1:min(20,length(out))) = out(1:min(20,length(out)));
     pause(2);
 end
+test = makeWulingSong(fs, FREQ_INFO);

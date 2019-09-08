@@ -9,7 +9,7 @@ sample_F_ABS = 1/NFFT*abs(sample_F);
 plot(axis_f(1:NFFT/2), sample_F_ABS(1:NFFT/2));
 %ERRTOL = 50; %Error Tolerance in Hz
 %ERRTOL_CNT = floor(ERRTOL*NFFT/fs);
-[F_pks, F_loc] = findpeaks(sample_F_ABS(1:NFFT/2),  "MinPeakProminence",0.0002, "MinPeakDistance", 50*NFFT/fs);
+[F_pks, F_loc] = findpeaks(sample_F_ABS(1:NFFT/2),  "MinPeakProminence",0.0005, "MinPeakDistance", 50*NFFT/fs);
  hold on;
  xlim([0 axis_f(NFFT/2)]);
  plot(axis_f(F_loc), F_pks, 'o');
@@ -24,7 +24,7 @@ for k = 2:1:F_loc_len
    [~,start_row] = min(FreqList);
    [~,start_col] = min(FreqList');
    for m = 1:1:length(temp)
-       if(temp(m) <= 0.01)
+       if(temp(m) <= 0.001)
            notBaseFreq = 1;
            break;
        end

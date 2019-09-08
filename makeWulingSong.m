@@ -18,8 +18,8 @@ for i=1:a
         freq = 440*(2^(-0.75))*2^(pitch(i)/12);
         test = ones(length(FREQ_INFO(:,1)),1).*freq;
         test = abs(test-FREQ_INFO(:,1));
-        [bestFit_freq, bestFit_index] = min(test);
-        temp = makesound2(fs, pitch(i), tc(i), FREQ_INFO(bestFit_index, 2:7));
+        [~, bestFit_index] = min(test);
+        temp = makesound2(fs, pitch(i), tc(i), FREQ_INFO(bestFit_index, 2:20));
         last_next = last+length(temp)-1;
         music(floor(last):floor(last_next)) = music(floor(last):floor(last_next))  + temp;
     else
