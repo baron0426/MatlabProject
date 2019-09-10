@@ -1,6 +1,6 @@
-function out = findBaseFreqV2(sample, fs)
+function out = findFreq(sample, fs)
 sound(sample,fs);
-sample = repmat(sample, 100, 1);
+sample = repmat(sample, 10000, 1);
 Amp = zeros(1,6);
 NFFT = 1000000;
 sample_F = fft(sample, NFFT);
@@ -9,7 +9,7 @@ sample_F_ABS = 1/NFFT*abs(sample_F);
 plot(axis_f(1:NFFT/2), sample_F_ABS(1:NFFT/2));
 %ERRTOL = 50; %Error Tolerance in Hz
 %ERRTOL_CNT = floor(ERRTOL*NFFT/fs);
-[F_pks, F_loc] = findpeaks(sample_F_ABS(1:NFFT/2),  "MinPeakProminence",0.0002, "MinPeakDistance", 50*NFFT/fs);
+[F_pks, F_loc] = findpeaks(sample_F_ABS(1:NFFT/2),  "MinPeakProminence",0.0008, "MinPeakDistance", 50*NFFT/fs);
  hold on;
  xlim([0 axis_f(NFFT/2)]);
  plot(axis_f(F_loc), F_pks, 'o');
@@ -43,7 +43,8 @@ FreqList_Freq(:)=axis_f(max(FreqList(:),1));
 FreqList_Amp(:)=sample_F_ABS(max(FreqList(:),1));
 FreqList_Freq(FreqList==0) = 0;
 FreqList_Amp(FreqList==0) = 0;
-[~,MAX_ENERGY_IND] = max(sum(FreqList_Amp.^2,1));
+Energy = sqrt(FreqList_Freq).*(FreqList_Amp.^2);
+[~,MAX_ENERGY_IND] = max(sum(Energy,1));
 baseFreq = FreqList_Freq(1,MAX_ENERGY_IND);
 temp = FreqList_Amp(:,MAX_ENERGY_IND);
 temp = temp';
@@ -54,5 +55,3 @@ pause(1);
 sound(y, fs);
 out = [baseFreq temp];
 end
-
-
