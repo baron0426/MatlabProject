@@ -1,0 +1,88 @@
+y=audioread('fmt.wav'); 
+n=length(y); 
+k=100; 
+a1=floor(n/k); 
+x1=zeros(a1+1,3); 
+x2=zeros(a1+1,8); 
+m=1; 
+x2(1,1)=0; 
+for a=0:a1 
+    if(a==a1) 
+        [x1(a+1,1),x1(a+1,2)]=max(y(k*a+1:n)); 
+    else
+        [x1(a+1,1),x1(a+1,2)]=max(y(k*a+1:k*(a+1))); 
+    end
+end 
+for a=1:a1 
+    if(x1(a+1,1)-x1(a,1)>0.06) 
+        x1(a+1,3)=1; 
+        x2(m,2)=((a+1)*k+x1(a+1,2))/8000; 
+        m=m+1; 
+        x2(m,1)=x2(m-1,2); 
+    end
+end
+for a=1:a1 
+    if(x2(a,2)~=0) 
+        k1=floor(x2(a,1)*8000)+1; 
+        k2=floor(x2(a,2)*8000); 
+        s=repmat(y(k1:k2),100,1); 
+        L=length(s); 
+        N=L; 
+        T=L/8000; 
+        OMG=N/T*2*pi; 
+        t=linspace(-T/2,T/2-T/L,L)'; 
+        omg=linspace(-OMG/2,OMG/2-OMG/L,L)'; 
+        f1=s.*exp(-j*(-OMG/2)*t); 
+        F=T*exp(j*(-OMG/2)*(-T/2))/N*fft(f1); 
+        F1=abs(F); 
+        [C,I]=max(F1(N/2:N));
+        for A=1:I 
+            if(F1(A+N/2)>C/3) 
+                if(abs(I/A-5)<0.01) 
+                    x2(a,3)=A*8000/L; 
+                    x2(a,4)=F1(A+N/2); 
+                    x2(a,5)=F1(2*A+N/2); 
+                    x2(a,6)=F1(3*A+N/2); 
+                    x2(a,7)=F1(4*A+N/2); 
+                    x2(a,8)=C; 
+                    break; 
+                else if(abs(I/A-4)<0.01) 
+                        x2(a,3)=A*8000/L; 
+                        x2(a,4)=F1(A+N/2); 
+                        x2(a,5)=F1(2*A+N/2); 
+                        x2(a,6)=F1(3*A+N/2); 
+                        x2(a,7)=C; 
+                        x2(a,8)=F1(5*A+N/2); 
+                        break; 
+                    else if(abs(I/A-3)<0.01) 
+                            x2(a,3)=A*8000/L; 
+                            x2(a,4)=F1(A+N/2); 
+                            x2(a,5)=F1(2*A+N/2); 
+                            x2(a,6)=C; 
+                            x2(a,7)=F1(4*A+N/2); 
+                            x2(a,8)=F1(5*A+N/2); 
+                            break; 
+                        else if(abs(I/A-2)<0.01) 
+                                x2(a,3)=A*8000/L; 
+                                x2(a,4)=F1(A+N/2); 
+                                x2(a,5)=C; 
+                                x2(a,6)=F1(3*A+N/2); 
+                                x2(a,7)=F1(4*A+N/2); 
+                                x2(a,8)=F1(5*A+N/2); 
+                                break; 
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        if(A==I) 
+            x2(a,3)=I*8000/L; 
+            x2(a,4)=C;
+            x2(a,5)=F1(2*I+N/2); 
+            x2(a,6)=F1(3*I+N/2); 
+            x2(a,7)=F1(4*I+N/2); 
+            x2(a,8)=F1(5*I+N/2); 
+        end
+    end
+end
