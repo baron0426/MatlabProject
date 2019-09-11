@@ -41,3 +41,4 @@ hall_proc(:,:,1)=hall_procR;
 hall_proc(:,:,2) = hall_procG;
 hall_proc(:,:,3) = hall_procB;
 image(hall_proc);
+imwrite(hall_proc, 'hall_withCircle.jpg');
