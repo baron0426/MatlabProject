@@ -16,8 +16,8 @@ for k = 1:1:n
         last_row = last_row_next;  
     end
 end
+temp = 1:1:n;
 if(mod(n,2)==1)
-    temp = 1:1:n;
     last_col_next = last_col+length(temp);
     col_seq(last_col:last_col_next-1) = temp;
     last_col = last_col_next;
@@ -40,7 +40,7 @@ for k = 2:1:n
     last_col = last_col_next;
     last_row = last_row_next;
 end
-out = {col_seq, row_seq};
+out = sub2ind([n,n],row_seq,col_seq);
 end
 
 
