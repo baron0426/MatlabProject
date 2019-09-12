@@ -1,6 +1,0 @@
-clear all;
-load 'hall.mat';
-N = 8;
-n = 0 : 1: N-1;
-T = diag([sqrt(1/2), ones(1,N-1)])*cos(n'*(2*n + 1)*pi/(2*N));
-coe = ;
