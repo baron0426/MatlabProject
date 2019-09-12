@@ -1,0 +1,19 @@
+function out = zigzag(n)
+mat_size = n^2;
+col_seq = zeros(1,mat_size);
+row_seq = zeros(1,mat_size);
+if(mod(n,2) == 0)
+    last = 1;
+    for n
+else
+end
+
+end
+
+
+function out = makePalindromeSequence(n)
+    t1 = 1:1:n;
+    t2 = flip(t1);
+    t2(1) = [];
+    out = [t1, t2];
+end
