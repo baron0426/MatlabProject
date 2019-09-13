@@ -15,7 +15,7 @@ pic_size = size(hall_gray);
 blockCntRow = floor(pic_size(1)/N);
 blockCntCol = floor(pic_size(2)/N);
 hall_gray_partition = mat2cell(double(hall_gray),N*ones(1,blockCntRow),N*ones(1,blockCntCol));
-hall_gray_partition_DCT_zigzag = cellfun(@DCT8andZigzagScan, hall_gray_partition, 'UniformOutput', false);
+hall_gray_partition_DCT_zigzag = cellfun(@q2_12_DCT8andZigzagScan, hall_gray_partition, 'UniformOutput', false);
 final_result = cell2mat(reshape(hall_gray_partition_DCT_zigzag', 1,[]));
 
 %handle the DC component coding
@@ -33,4 +33,4 @@ AC_code = cell2mat(AC_code);
 
 %save result
 [height, width] = size(hall_gray);
-save('q2_9_jpegcodes.mat','height','width', 'DC_code','AC_code');
+save('q2_12_jpegcodes.mat','height','width', 'DC_code','AC_code');

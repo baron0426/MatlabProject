@@ -1,5 +1,5 @@
 clear all;
-load('q2_9_jpegcodes.mat');
+load('q2_12_jpegcodes.mat');
 load('JpegCoeff.mat','DCTAB','ACTAB');
 blockCntRow = floor(height/8);
 blockCntCol = floor(width/8);
@@ -98,7 +98,7 @@ clear query;
 clear DCTAB;
 clear ACTAB;
 [decode_result_rowCnt,~] = size(decode_result);
-decode_pic = cellfun(@IZigzagScanandIDCT8,mat2cell(decode_result,decode_result_rowCnt ,ones(1,blockCnt)),'UniformOutput', false);
+decode_pic = cellfun(@q2_12_IZigzagScanandIDCT8,mat2cell(decode_result,decode_result_rowCnt ,ones(1,blockCnt)),'UniformOutput', false);
 decode_pic = cell2mat(reshape(decode_pic, blockCntCol, blockCntRow)');
 load 'hall.mat';
 subplot(1,2,1);
