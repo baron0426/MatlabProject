@@ -17,6 +17,16 @@ blockCntCol = floor(pic_size(2)/N);
 hall_gray_partition = mat2cell(double(hall_gray),N*ones(1,blockCntRow),N*ones(1,blockCntCol));
 hall_gray_partition_DCT_zigzag = cellfun(@DCT8andZigzagScan, hall_gray_partition, 'UniformOutput', false);
 final_result = cell2mat(reshape(hall_gray_partition_DCT_zigzag', 1,[]));
+
 %handle the DC component coding
 DC = final_result(1,:);
 DC_diff = filter([-1, 1], 1, DC, 2*DC(1));
+DC_code = cellfun(@DCCoding, num2cell(DC_diff), 'UniformOutput', false);
+DC_code = cell2mat(DC_code);
+
+%handle the AC component coding
+AC = final_result;
+AC(1,:)= [];
+[AC_rowCnt, AC_colCnt] = size(AC);
+AC = mat2cell(AC,AC_rowCnt, ones(1,AC_colCnt));
+
