@@ -22,6 +22,7 @@ QTAB = [16,11,10,16,24,40,51,61;...
 n = 0 : 1: N-1;
 DCT = sqrt(2/N)*diag([sqrt(1/2), ones(1,N-1)])*cos(n'*(2*n + 1)*pi/(2*N));
 in_DCT = DCT*in*DCT';
+%in_DCT = dct2(in);
 in_DCT = round(in_DCT./QTAB);
 out = in_DCT(zigzag8_ind);
 end
