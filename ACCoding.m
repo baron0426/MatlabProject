@@ -1,7 +1,7 @@
 function out = ACCoding(in)
 load('JpegCoeff.mat', 'ACTAB');
 in_len = length(in);
-out = false(1,30*in_len);
+out = false(1,60*in_len);
 last = 1;
 run = 0;
 for n = 1:1:in_len
@@ -35,6 +35,11 @@ for n = 1:1:in_len
         out(last:last_next-1) = magnitude_bin;
         last = last_next;
         run = 0;
+        if(n == in_len)
+            last_next = last + 4;
+            out(last:last_next-1) =  logical([1,0,1,0]);
+            last = last_next;
+        end
     end
 end
 out = out(1:last_next-1);
