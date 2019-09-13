@@ -1,6 +1,6 @@
 clear all;
 load('jpegcodes.mat');
-load('JpegCoeff.mat');
+load('JpegCoeff.mat','DCTAB','ACTAB');
 blockCntRow = floor(height/8);
 blockCntCol = floor(width/8);
 blockCnt = blockCntRow*blockCntCol;
@@ -32,6 +32,7 @@ while(last<=code_length)
     end
     m = m +1;
 end
+DC_decode = filter(-1, [1,-1],DC_decode,2*DC_decode(1));
 AC_decode = cell(1,blockCnt);
 last = 1;
 max_sizecode_length = max(ACTAB(:,3));
@@ -82,4 +83,18 @@ while(last<=code_length)
          ind = ind + 1;
     end
 end
+AC_decode = cell2mat(AC_decode);
+decode_result = [DC_decode; AC_decode];
+clear last;
+clear last_next;
+clear ind;
+clear m;
+clear k;
+clear magnitude;
+clear run;
+clear sizee;
+clear max_sizecode_length;
+clear query;
+clear DCTAB;
+clear ACTAB;
 
