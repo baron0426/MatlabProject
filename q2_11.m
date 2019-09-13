@@ -97,4 +97,13 @@ clear max_sizecode_length;
 clear query;
 clear DCTAB;
 clear ACTAB;
-
+[decode_result_rowCnt,~] = size(decode_result);
+decode_pic = cellfun(@IZigzagScanandIDCT8,mat2cell(decode_result,decode_result_rowCnt ,ones(1,blockCnt)),'UniformOutput', false);
+decode_pic = cell2mat(reshape(decode_pic, blockCntCol, blockCntRow)');
+load 'hall.mat';
+subplot(1,2,1);
+imshow(hall_gray,'InitialMagnification','fit');
+title('Original');
+subplot(1,2,2);
+imshow(uint8(decode_pic),'InitialMagnification','fit');
+title('JPEG Encoded and Decoded');
