@@ -8,7 +8,7 @@ if(n>=0)
 else
     magnitude_bin = (magnitude_bin=='0');
 end
-out = logical(zeros(1, cat_code_length+cat_num));
+out = false(1, cat_code_length+cat_num);
 out(1:cat_code_length) = logical(DCTAB(cat_num+1, 2:1+cat_code_length));
 out(cat_code_length+1:cat_code_length+cat_num) = magnitude_bin;
 end

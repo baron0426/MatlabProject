@@ -28,5 +28,5 @@ DC_code = cell2mat(DC_code);
 AC = final_result;
 AC(1,:)= [];
 [AC_rowCnt, AC_colCnt] = size(AC);
-AC = mat2cell(AC,AC_rowCnt, ones(1,AC_colCnt));
-
+AC_code = cellfun(@ACCoding,mat2cell(AC,AC_rowCnt, ones(1,AC_colCnt)),'UniformOutput', false);
+AC_code = cell2mat(AC_code);
