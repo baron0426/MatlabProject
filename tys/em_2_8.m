@@ -1,5 +1,5 @@
 % 2.8
-clear all, close all, clc;
+%clear all, close all, clc;
 load('hall.mat');
 load('JpegCoeff.mat');
 [N,M] = size(hall_gray);
