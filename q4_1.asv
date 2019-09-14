@@ -1,0 +1,6 @@
+clear all;
+close all;
+clc;
+pic_cnt = 33;
+L = 4;
+for k = 1:1:pic_cn
