@@ -1,0 +1,5 @@
+function out = distance(v1,v2)
+    v1 = sqrt(v1);
+    v2 = sqrt(v2);
+    out = 1-(v1'*v2);
+end

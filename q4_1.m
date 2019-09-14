@@ -10,3 +10,6 @@ for k = 1:1:pic_cnt
 end
 result = cell2mat(result);
 v = mean(result,2);
+dist = colorDist(result, v);
+crit = max(dist);
+save('q4_1_v.mat', 'v', 'crit', 'L');
