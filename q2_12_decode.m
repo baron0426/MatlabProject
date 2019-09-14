@@ -107,3 +107,6 @@ title('Original');
 subplot(1,2,2);
 imshow(uint8(decode_pic),'InitialMagnification','fit');
 title('JPEG Encoded and Decoded');
+temp = (decode_pic - double(hall_gray)).^2;
+MSE = (1/(height*width))*sum(sum(temp));
+PSNR = 10*log10(255^2/MSE);
