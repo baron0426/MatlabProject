@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 load('q4_1_v.mat');
-pic = imread('Faces/people5.jpg');
+pic = imread('Faces/people8.jpg');
 N = 16;
 pic_size = size(pic);
 x_left = N - mod(pic_size(1),N);
