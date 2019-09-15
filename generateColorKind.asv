@@ -1,7 +1,0 @@
-function out = generateColorKind(pic, L)
-pic_R = pic(:,:,1);
-pic_G = pic(:,:,2);
-pic_B = pic(:,:,3);
-color_type  = (2^(2*L))*floor(double(pic_R)./(2^(8-L))) + (2^(L))*floor(double(pic_G)./(2^(8-L))) + floor(double(pic_B)./(2^(8-L)));
-out = zeros(2^(3*L)-1, 1);
-end
