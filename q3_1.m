@@ -17,7 +17,14 @@ blockCntCol = floor(pic_size(2)/N);
 hall_gray_partition = mat2cell(double(hall_gray),N*ones(1,blockCntRow),N*ones(1,blockCntCol));
 hall_gray_partition_DCT_zigzag = cellfun(@DCT8andZigzagScan, hall_gray_partition, 'UniformOutput', false);
 final_result = cell2mat(reshape(hall_gray_partition_DCT_zigzag', 1,[]));
-%generate 
+%generate hide message
+test_msg = 'I am Baron You.  I own the copyright.';
+test_msg_out = dec2bin(test_msg);
+test_msg_out = reshape(test_msg_out',1,[]);
+
+%decode
+rec = reshape(test_msg_out, 7, [])'
+rec = char(bin2dec(rec))';
 %handle the DC component coding
 DC = final_result(1,:);
 DC_diff = filter([-1, 1], 1, DC, 2*DC(1));
