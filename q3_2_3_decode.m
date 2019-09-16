@@ -1,22 +1,7 @@
 clear all;
 close all;
 clc;
-load('q3_1_jpegcodes.mat');
-%extract hide message
-hall_gray_proc = num2cell(hall_gray_proc);
-recovered_msg = logical(cellfun(@q3_1_extract, hall_gray_proc));
-recovered_msg = reshape(recovered_msg, 1, []);
-recovered_msg(length(recovered_msg) - mod(length(recovered_msg),7)+1 : length(recovered_msg)) = [];
-recovered_msg = reshape(recovered_msg, 7, [])';
-recovered_msg = bi2de(recovered_msg, 'left-msb');
-recovered_msg(recovered_msg == 0) = [];
-recovered_msg = char(recovered_msg)';
-hall_gray_proc = cell2mat(hall_gray_proc);
-% subplot(1,2,1);
-% imshow(hall_gray_proc,'InitialMagnification','fit');
-% title('With Hided Message');
-% text(recovered_msg);
-
+load('q3_2_3_jpegcodes.mat');
 load('JpegCoeff.mat','DCTAB','ACTAB');
 blockCntRow = floor(height/8);
 blockCntCol = floor(width/8);
@@ -65,11 +50,15 @@ while(last<=code_length)
             ind = 1;
             AC_decode{m} = zeros(63,1);
         end
-    elseif(AC_code(last:last+10) == logical([1,1,1,1,1,1,1,1,0,0,1]))
+        continue;
+    elseif(last+10<=code_length)
+        if(AC_code(last:last+10) == logical([1,1,1,1,1,1,1,1,0,0,1]))
         AC_decode{m}(ind:ind+15) = zeros(16,1);
         ind = ind + 16;
         last = last+11;
-    else
+        continue;
+        end
+    end
         for k = 2:1:max_sizecode_length
             query = find(~any((~(ACTAB(:,4:3+k) == AC_code(last:last+k-1))), 2));
             if(length(query) == 1)
@@ -98,7 +87,7 @@ while(last<=code_length)
          last = last_next;
          AC_decode{m}(ind) = magnitude;
          ind = ind + 1;
-    end
+    
 end
 AC_decode = cell2mat(AC_decode);
 decode_result = [DC_decode; AC_decode];
@@ -117,17 +106,26 @@ clear ACTAB;
 [decode_result_rowCnt,~] = size(decode_result);
 decode_pic = cellfun(@IZigzagScanandIDCT8,mat2cell(decode_result,decode_result_rowCnt ,ones(1,blockCnt)),'UniformOutput', false);
 decode_pic = cell2mat(reshape(decode_pic, blockCntCol, blockCntRow)');
-decode_pic = uint8(decode_pic);
-decode_pic = num2cell(decode_pic);
-recovered_msg2 = logical(cellfun(@q3_1_extract, decode_pic));
-recovered_msg2 = reshape(recovered_msg2, 1, []);
-recovered_msg2(length(recovered_msg2) - mod(length(recovered_msg2),7)+1 : length(recovered_msg2)) = [];
-recovered_msg2 = reshape(recovered_msg2, 7, [])';
-recovered_msg2 = bi2de(recovered_msg2, 'left-msb');
-recovered_msg2(recovered_msg2 == 0) = [];
-recovered_msg2 = char(recovered_msg2)';
-decode_pic = cell2mat(decode_pic);
+% %extract hide message
+recovered_msg_ind = cellfun(@q3_2_3_findInd,mat2cell(decode_result,decode_result_rowCnt ,ones(1,blockCnt)));
+recovered_msg = decode_result(sub2ind(size(decode_result), recovered_msg_ind, 1:1:blockCnt));
+recovered_msg(recovered_msg == -1) = 0;
+recovered_msg = logical(recovered_msg);
+recovered_msg(length(recovered_msg) - mod(length(recovered_msg),7)+1 : length(recovered_msg)) = [];
+recovered_msg = reshape(recovered_msg, 7,[])';
+recovered_msg = bi2de(recovered_msg, 'left-msb');
+recovered_msg(recovered_msg == 0) = [];
+recovered_msg = char(recovered_msg)';
+disp(recovered_msg);
 
-disp(['Original Message: ',recovered_msg]);
-disp(['After JPEG Encoding and Decoding: ',recovered_msg2]);
 
+load 'hall.mat';
+subplot(1,2,1);
+imshow(hall_gray,'InitialMagnification','fit');
+title('Original');
+subplot(1,2,2);
+imshow(uint8(decode_pic),'InitialMagnification','fit');
+title('JPEG with hidden message');
+temp = (decode_pic - double(hall_gray)).^2;
+MSE = 1/(height*width)*sum(temp(:));
+PSNR = 10*log10(255^2/MSE);

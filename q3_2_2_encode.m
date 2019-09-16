@@ -12,31 +12,22 @@ if(y_left<N)
     hall_gray(:,(pic_size(2)+1):(pic_size(2)+y_left)) = repmat(hall_gray(:,pic_size(2),:),1, y_left);
 end
 pic_size = size(hall_gray);
-[Row, Col] = size(hall_gray);
-hall_gray = num2cell(hall_gray);
+
+
+
+blockCntRow = floor(pic_size(1)/N);
+blockCntCol = floor(pic_size(2)/N);
 %generate hide message
 test_msg = 'I am Baron You.  I own the copyright.';
 test_msg_out = dec2bin(test_msg);
 test_msg_out = reshape(test_msg_out',1,[]);
 test_msg_out = (test_msg_out == '1');
-test_msg_out2 = false(1, Row*Col);
+test_msg_out2 = false(1, blockCntRow*blockCntCol);
 test_msg_out2(1:length(test_msg_out)) = test_msg_out;
-test_msg_out2 = reshape(test_msg_out2, Row, Col);
+test_msg_out2 = reshape(test_msg_out2', blockCntCol, blockCntRow)';
 test_msg_out2 = num2cell(test_msg_out2);
-hall_gray_proc = cellfun(@q3_1_hide, hall_gray, test_msg_out2);
-hall_gray = cell2mat(hall_gray);
-subplot(1,2,1);
-imshow(hall_gray,'InitialMagnification','fit');
-title('Original')
-subplot(1,2,2);
-imshow(hall_gray_proc,'InitialMagnification','fit');
-title('With Hidden Message')
-
-
-blockCntRow = floor(pic_size(1)/N);
-blockCntCol = floor(pic_size(2)/N);
-hall_gray_partition = mat2cell(double(hall_gray_proc),N*ones(1,blockCntRow),N*ones(1,blockCntCol));
-hall_gray_partition_DCT_zigzag = cellfun(@DCT8andZigzagScan, hall_gray_partition, 'UniformOutput', false);
+hall_gray_partition = mat2cell(double(hall_gray),N*ones(1,blockCntRow),N*ones(1,blockCntCol));
+hall_gray_partition_DCT_zigzag = cellfun(@q3_2_2_DCT8andZigzagScan, hall_gray_partition, test_msg_out2, 'UniformOutput', false);
 final_result = cell2mat(reshape(hall_gray_partition_DCT_zigzag', 1,[]));
 
 
@@ -55,4 +46,4 @@ AC_code = cell2mat(AC_code);
 
 %save result
 [height, width] = size(hall_gray);
-save('q3_1_jpegcodes.mat','height','width', 'DC_code','AC_code', 'hall_gray_proc');
+save('q3_2_2_jpegcodes.mat','height','width', 'DC_code','AC_code');
