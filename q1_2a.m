@@ -18,7 +18,7 @@ yc = floor(pic_size(2)/2);
 r = floor(min(pic_size(1:2))/2);
 
 %generate the relevent index according to the parameter
-R = 0:0.01:r;
+R = r-0.5:0.01:r;
 theta = 0:0.01:2*pi;
 X = xc + R'*cos(theta);
 Y = yc + R'*sin(theta);
