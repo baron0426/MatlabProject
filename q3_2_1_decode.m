@@ -115,7 +115,15 @@ recovered_msg = char(recovered_msg)';
 decode_pic = cellfun(@q3_2_1_IDCT8,decode_pic,'UniformOutput', false);
 
 decode_pic = cell2mat(decode_pic);
-decode_pic = uint8(decode_pic);
 
 disp(['Original Message: ',recovered_msg]);
-
+load 'hall.mat';
+subplot(1,2,1);
+imshow(hall_gray,'InitialMagnification','fit');
+title('Original');
+subplot(1,2,2);
+imshow(uint8(decode_pic),'InitialMagnification','fit');
+title('JPEG with hidden message');
+temp = (decode_pic - double(hall_gray)).^2;
+MSE = 1/(height*width)*sum(temp(:));
+PSNR = 10*log10(255^2/MSE);
