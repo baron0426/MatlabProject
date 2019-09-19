@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 pic_cnt = 33;
-L = 4; %here you can change the value of L
+L = 3; %here you can change the value of L
 result = cell(1, pic_cnt);
 for k = 1:1:pic_cnt
     pic = imread(['Faces/', num2str(k), '.bmp']);
