@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 load('q4_1_v.mat');
-pic = imread('Faces/people8.jpg');
+pic = imread('Faces/people2.jpg');
 N = 16;
 pic_size = size(pic);
 x_left = N - mod(pic_size(1),N);
@@ -24,7 +24,7 @@ result = cellfun(@generateColorVec, pic, L_cell, 'UniformOutput', false);
 result2 = cellfun(@colorDist, result, v_cell, 'UniformOutput', false);
 result2 = cell2mat(result2);
 result3 = zeros(blockCntRow, blockCntCol);
-result3(result2 <= 0.6) = 1;
+result3(result2 <= 0.6) = 1; % set a threshold
 result3 = medfilt2(result3);
 result3 = mat2cell(result3, ones(1,blockCntRow), ones(1,blockCntCol));
 result4 = cellfun(@recovery8, result3, N_cell, 'UniformOutput', false);
@@ -38,6 +38,6 @@ B= bwboundaries(result4,8, 'noholes');
 hold on;
 for k = 1:length(B)
    boundary = B{k};
-   plot(boundary(:,2), boundary(:,1), 'r', 'LineWidth', 1)
+   plot(boundary(:,2), boundary(:,1), 'r', 'LineWidth', 2)
 end
 hold off;
